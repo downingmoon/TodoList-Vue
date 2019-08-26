@@ -34,7 +34,6 @@
             getList: function() {
                 axios.get('http://localhost:4000/todos')
                 .then((res) => {
-                    console.log(res)
                     this.list = res.data.todo
                 })
                 .catch((ex) => {
@@ -42,9 +41,8 @@
                 })
             },
             complete: function(idx) {
-                axios.put('http://localhost:4000/todos/' + idx, {seq: idx})
+                axios.put('http://localhost:4000/todos/' + idx, {idx: idx})
                 .then((res) => {
-                    console.log(res)
                     this.getList()
                 })
                 .catch((ex) => {
@@ -65,7 +63,7 @@
             del: function(idx) {
                 let conf = confirm("정말 삭제하시겠습니까?")
                 if(conf) {
-                    axios.delete('http://localhost:4000/todos/', {seq: idx})
+                    axios.delete('http://localhost:4000/todos/' + idx, {idx: idx})
                     .then((res) => {
                         console.log(res)
                         this.getList()

@@ -8,7 +8,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: false
+        isLoggedIn: false,
+        userIdx: 0
     },
     mutations: {
         [Const.SUBMIT_LOGIN]: (state, payload) => {
@@ -19,8 +20,9 @@ const store = new Vuex.Store({
             .then((res) => {
                 if (res.data.token != undefined) {
                     localStorage.setItem("token", res.data.token)
-                    localStorage.setItem('userId', res.data.userId)
+                    localStorage.setItem('userIdx', res.data.userIdx)
                     state.isLoggedIn = true
+                    state.userIdx = res.data.userIdx
                     router.push("/list")
                 }
             })
@@ -30,8 +32,9 @@ const store = new Vuex.Store({
         },
         [Const.LOGOUT]: (state) => {
             state.isLoggedIn = false
+            state.userIdx = 0
             localStorage.removeItem("token")
-            localStorage.removeItem('userId')
+            localStorage.removeItem("userIdx")
             router.push("/login")
         }
     },

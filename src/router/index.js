@@ -25,6 +25,7 @@ const loginCheck = (referer) => async (to, from, next) => {
     // token이 없으면 바로 login 페이지로 보냄.
     if (token == null) {
         store.state.isLoggedIn = false
+        store.state.userIdx = 0
         if(referer == 'login') next()
         else {
             alert('로그인이 필요한 페이지 입니다.')
@@ -35,6 +36,7 @@ const loginCheck = (referer) => async (to, from, next) => {
     else {
         let res = await isValidToken(token)
         store.state.isLoggedIn = res
+        store.state.userIdx = localStorage.getItem('userIdx')
         console.log(res)
         if(referer == 'login' && res) {
             alert('이미 로그인된 사용자 입니다.')

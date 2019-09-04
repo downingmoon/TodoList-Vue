@@ -28,11 +28,12 @@
         created() {
             // console.log("created")
             bus.$on("addEvent", this.add)
-            this.getList()
+            this.getList(localStorage.getItem('userIdx'))
         },
         methods: {
-            getList: function() {
-                axios.get('http://localhost:4000/todos')
+            getList: function(idx) {
+                console.log(idx)
+                axios.get('http://localhost:4000/todos/' + idx, {idx: Number(idx)})
                 .then((res) => {
                     this.list = res.data.todo
                 })
@@ -73,13 +74,12 @@
                     })
                 }
             },
-            add: function(todo) {
-                console.log(`todo: ${todo}`)
+            add: function(todo, idx) {
                 if(todo != '') {
-                    axios.post('http://localhost:4000/todos', {todo: todo})
+                    axios.post('http://localhost:4000/todos', {todo: todo, userIdx: Number(idx)})
                     .then((res) => {
                         console.log(res)
-                        this.getList()
+                        this.getList(idx)
                     })
                     .catch((ex) => {
                         alert(ex)

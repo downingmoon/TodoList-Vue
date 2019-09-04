@@ -20,7 +20,7 @@ export default {
     methods: {
         addBtn: function() {
             if(this.todo != '') {
-                bus.$emit("addEvent", this.todo)
+                bus.$emit("addEvent", this.todo, this.$store.state.userIdx)
             } else {
                 alert('공백은 추가할수 없습니다.')
             }
@@ -29,7 +29,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

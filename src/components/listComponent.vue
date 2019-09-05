@@ -15,7 +15,6 @@
 <script>
     import axios from 'axios'
     import ipt from './inputComponent'
-    import bus from './bus'
 
     export default {
         name: 'list',
@@ -27,13 +26,12 @@
         components: {ipt},
         created() {
             // console.log("created")
-            bus.$on("addEvent", this.add)
+            this.$on("addEvent", this.add)
             this.getList(localStorage.getItem('userIdx'))
         },
         methods: {
-            getList: function(idx) {
-                console.log(idx)
-                axios.get('http://localhost:4000/todos/' + idx, {idx: Number(idx)})
+            getList: function(userIdx) {
+                axios.get('http://localhost:4000/todos/' + userIdx, {idx: Number(userIdx)})
                 .then((res) => {
                     this.list = res.data.todo
                 })
@@ -44,7 +42,7 @@
             complete: function(idx) {
                 axios.put('http://localhost:4000/todos/' + idx, {idx: idx})
                 .then((res) => {
-                    this.getList()
+                    this.getList(localStorage.getItem('userIdx'))
                 })
                 .catch((ex) => {
                     alert(ex)
@@ -67,19 +65,19 @@
                     axios.delete('http://localhost:4000/todos/' + idx, {idx: idx})
                     .then((res) => {
                         console.log(res)
-                        this.getList()
+                        this.getList(localStorage.getItem('userIdx'))
                     })
                     .catch((ex) => {
                         alert(ex)
                     })
                 }
             },
-            add: function(todo, idx) {
+            add: function(todo, userIdx) {
                 if(todo != '') {
-                    axios.post('http://localhost:4000/todos', {todo: todo, userIdx: Number(idx)})
+                    axios.post('http://localhost:4000/todos', {todo: todo, userIdx: Number(userIdx)})
                     .then((res) => {
                         console.log(res)
-                        this.getList(idx)
+                        this.getList(userIdx)
                     })
                     .catch((ex) => {
                         alert(ex)

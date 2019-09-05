@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import bus from './bus'
-
 export default {
     name: 'ipt',
     data() {
@@ -20,7 +18,7 @@ export default {
     methods: {
         addBtn: function() {
             if(this.todo != '') {
-                bus.$emit("addEvent", this.todo, this.$store.state.userIdx)
+                this.$parent.$emit('addEvent', this.todo, this.$store.state.userIdx)
             } else {
                 alert('공백은 추가할수 없습니다.')
             }

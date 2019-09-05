@@ -37,7 +37,6 @@ const loginCheck = (referer) => async (to, from, next) => {
         let res = await isValidToken(token)
         store.state.isLoggedIn = res
         store.state.userIdx = localStorage.getItem('userIdx')
-        console.log(res)
         if(referer == 'login' && res) {
             alert('이미 로그인된 사용자 입니다.')
             next('/')
